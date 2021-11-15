@@ -1,0 +1,14 @@
+.dialog {
+  display: none;
+}
+
+.pickmeup .pmu-instance .pmu-button {
+  color: #a1a1a1;
+}
+
+div[class$=__event_calendar] {
+  background-color: #98FF98;
+  color: #20603D;
+}
+
+/*# sourceMappingURL=calendar_events.css.map */

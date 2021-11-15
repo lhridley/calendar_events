@@ -1,0 +1,26 @@
+#field.field.node.content_calendar_events.field_only_day.yml
+
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_only_day
+    - node.type.content_calendar_events
+_core:
+  default_config_hash: mqkil9kt-Yi5LUh6-fosAF1lJBkXChg_SVjgQFq9iUE
+id: node.content_calendar_events.field_only_day
+field_name: field_only_day
+entity_type: node
+bundle: content_calendar_events
+label: 'Only day'
+description: 'Does the event last only one day?'
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: 'A single day'
+  off_label: 'Several days'
+field_type: boolean

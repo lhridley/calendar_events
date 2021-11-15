@@ -1,0 +1,14 @@
+#language.content_settings.node.content_calendar_events.yml
+
+langcode: es
+status: true
+dependencies:
+  config:
+    - node.type.content_calendar_events
+_core:
+  default_config_hash: 1L-DAAQbDxl_s_uNzmyLFGVAeajFIIoQpjhC_WP3WQY
+id: node.content_calendar_events
+target_entity_type_id: node
+target_bundle: content_calendar_events
+default_langcode: site_default
+language_alterable: false

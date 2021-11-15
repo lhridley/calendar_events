@@ -1,0 +1,21 @@
+#node.type.content_calendar_events.yml
+
+langcode: es
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+_core:
+  default_config_hash: o_9hi3_KTVwHiEb8z81y9WyEg8zZPBKF0-Muxlwik2A
+name: 'Content Calendar Events'
+type: content_calendar_events
+description: 'Content Calendar Events list'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

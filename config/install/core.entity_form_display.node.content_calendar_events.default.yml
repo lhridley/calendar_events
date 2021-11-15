@@ -1,0 +1,95 @@
+#core.entity_form_display.node.content_calendar_events.default.yml
+
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.field.node.content_calendar_events.body
+    - field.field.node.content_calendar_events.field_end_date_of_the_event
+    - field.field.node.content_calendar_events.field_only_day
+    - field.field.node.content_calendar_events.field_start_date_of_the_event
+    - node.type.content_calendar_events
+  module:
+    - datetime
+    - path
+    - text
+_core:
+  default_config_hash: ODMWi7cixTdEBpws543wY3Jdtd6tLbgxvoKALz88aDE
+id: node.content_calendar_events.default
+targetEntityType: node
+bundle: content_calendar_events
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 6
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+    region: content
+  created:
+    type: datetime_timestamp
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_end_date_of_the_event:
+    weight: 10
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_only_day:
+    weight: 8
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_start_date_of_the_event:
+    weight: 9
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 4
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 3
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  promote: true
+  uid: true

@@ -1,0 +1,15 @@
+calendar_events_library:
+  version: 1.0
+  css:
+    theme:
+      css/base/calendar_events.css: {}
+      css/base/pickmeup.css: {}
+  js:
+    js/pickmeup.min.js: {}
+    js/pickmeup_langs.js: {}
+    js/calendar_events.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupalSettings
+    - core/drupal.dialog.ajax

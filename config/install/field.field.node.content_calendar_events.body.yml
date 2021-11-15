@@ -1,0 +1,26 @@
+#field.field.node.content_calendar_events.body.yml
+
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.content_calendar_events
+  module:
+    - text
+_core:
+  default_config_hash: 5IEkJuZAXbCYkI_rJj3Na2uoYjzaAfXTkhA65CUJKO8
+id: node.content_calendar_events.body
+field_name: body
+entity_type: node
+bundle: content_calendar_events
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

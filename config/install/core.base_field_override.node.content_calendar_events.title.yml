@@ -1,0 +1,21 @@
+#core.base_field_override.node.content_calendar_events.title.yml
+
+langcode: es
+status: true
+dependencies:
+  config:
+    - node.type.content_calendar_events
+_core:
+  default_config_hash: kFVLkWUaIEJ2qNQrG69jROPfNJ9e5DdkWWEwmmFg5uw
+id: node.content_calendar_events.title
+field_name: title
+entity_type: node
+bundle: content_calendar_events
+label: Title
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

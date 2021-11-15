@@ -1,0 +1,9 @@
+name: Calendar Events
+description: "Calendar associated to an event content that allows to customize the styles and the number of calendars (1-3) that can be used. It is based on the PickmeUp calendar from Nazar Mokrynskyi: https://github.com/nazar-pc/PickMeUp"
+package: "oscar_drupal"
+
+type: module
+core_version_requirement: ^8.8.0 || ^9.0
+dependencies:
+  - block
+  - drupal:path_alias

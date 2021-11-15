@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Implement hook_form_alter().
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+
+/**
+ * Implement hook_theme().
+ */
+ function calendar_events_theme($existing, $type, $theme, $path) {
+  return [
+    'calendar_events' => [
+      'variables' => ['title' => '', 'attached' => '']
+    ]
+  ];
+}
+
+/**
+ * Implements hook_help().
+ */
+/* function events_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the custom_block module.
+    case 'help.page.custom_block':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      return $output;
+
+    default:
+  }
+} */

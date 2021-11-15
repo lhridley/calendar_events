@@ -1,0 +1,25 @@
+#field.field.node.content_calendar_events.field_start_date_of_the_event.yml
+
+langcode: es
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_start_date_of_the_event
+    - node.type.content_calendar_events
+  module:
+    - datetime
+id: node.content_calendar_events.field_start_date_of_the_event
+field_name: field_start_date_of_the_event
+entity_type: node
+bundle: content_calendar_events
+label: 'Start date of the event'
+description: 'start date of the event'
+required: true
+translatable: false
+default_value:
+  -
+    default_date_type: now
+    default_date: now
+default_value_callback: ''
+settings: {  }
+field_type: datetime

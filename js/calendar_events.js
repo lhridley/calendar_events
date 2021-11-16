@@ -190,7 +190,7 @@
     
 
      
-    Drupal.behaviors.events = {
+    Drupal.behaviors.calendar_events = {
         attach: function(context, settings){
             init();
             setCss();

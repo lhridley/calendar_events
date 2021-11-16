@@ -6,7 +6,7 @@ use Drupal;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Component\Datetime;
+
 
 /**
  * @Block(
@@ -25,7 +25,24 @@ class CalendarEventsBlock extends BlockBase{
     */
     public function defaultConfiguration() {
         return [
+          'calendar_events' => [
+              'numCal'          => 1,
+              'bgColor'         => '#FFFFFF',
+              'bgColorEvent'    => '#00AAE4',
+              'bgColorSelected' => '',
+              'bgColorToday'    => '',
+              'color'           => '#111111',
+              'colorEvent'      => '#20603D',
+              'colorOther'      => '#666666',
+              'colorMonth'      => '#000000',
+              'textInitialDate' => 'Text with initial date',
+              'textEndDate'     => 'Text with end date',
+              'textInModal'     => 1,
+              'borderRadius'    => '70%',
+          ]
         ] + parent::defaultConfiguration();
+
+
     }
 
   /**
@@ -34,7 +51,6 @@ class CalendarEventsBlock extends BlockBase{
 
   public function build(){
     $language = Drupal::languageManager()->getCurrentLanguage()->getId();
-    dump($this->configuration);
     $output = [
       '#theme' => 'calendar_events',
       '#attached' => [
@@ -55,6 +71,7 @@ class CalendarEventsBlock extends BlockBase{
                                         'color_event' => $this->configuration['calendar_events']['colorEvent'],
                                         'color_other' => $this->configuration['calendar_events']['colorOther'],
                                         'color_month' => $this->configuration['calendar_events']['colorMonth'],
+                                        'border_radius' => $this->configuration['calendar_events']['borderRadius'],
                                         'text_in_modal' => $this->configuration['calendar_events']['textInModal'],
                                         'text_initial_date' => $this->configuration['calendar_events']['textInitialDate'],
                                         'text_end_date' => $this->configuration['calendar_events']['textEndDate'],
@@ -67,6 +84,7 @@ class CalendarEventsBlock extends BlockBase{
     ];
     return $output;
   }
+
    private function getEvents(){
     $query = Drupal::entityTypeManager()->getStorage('node')->getQuery();
     $query->condition('type', 'content_calendar_events');
@@ -78,7 +96,7 @@ class CalendarEventsBlock extends BlockBase{
         $node = Node::load($nid);        
         $path = sprintf('/node/%d', $node->id());
         $alias = $alias_manager->getAliasByPath($path);
-        $url = (count($alias) > 0) ? $alias : $path;
+        $url = $alias != null ? $alias : $path;
                  
         array_push($events, [
             'url' => $url,
@@ -98,8 +116,11 @@ class CalendarEventsBlock extends BlockBase{
     */
     public function blockForm($form, FormStateInterface $form_state) {
         $form = parent::blockForm($form, $form_state);
-        $config = $this->getConfiguration();
-
+        $form['#tree'] = TRUE;
+	      $config = $this->getConfiguration();
+        $message = $config;
+        $default = $this->defaultConfiguration();        
+        \Drupal::logger('calendar_events::blockForm')->debug('<pre><code>' . print_r($message, TRUE) . '</code></pre>');
         $theme_options = [
                             1 =>'One Months',
                             2 => 'Two Months',
@@ -115,7 +136,7 @@ class CalendarEventsBlock extends BlockBase{
               '#options' => $theme_options,
               '#title' => $this->t('Choose view'),
               '#description' => $this->t('Choose 1,2,3 views'),
-              '#default_value' => (array_key_exists($config['calendar_events']['numCal'], $theme_options)) ? $config['calendar_events']['numCal'] : 1,
+              '#default_value' => $config['calendar_events']['numCal'],
               '#weight' => '1',
           ],
           'bgColor' => [
@@ -123,7 +144,7 @@ class CalendarEventsBlock extends BlockBase{
               '#maxlength' => 7, 
               '#title' => $this->t('Bg color calendar'),
               '#description' => $this->t('Choose hex background color for all calendar'),
-              '#default_value' => $this->validate_color($config['calendar_events']['bgColor']) ? $config['calendar_events']['bgColor'] : '#FFFFFF',
+              '#default_value' => $this->validate_color($config['calendar_events']['bgColor']) ? $config['calendar_events']['bgColor'] : $default['calendar_events']['bgColor'],
               '#weight' => '3',
           ],
           'bgColorEvent' => [
@@ -131,7 +152,7 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 7, 
             '#title' => $this->t('BgColor Event Day'),
             '#description' => $this->t('Choose hex background color for event day'),
-            '#default_value' => $this->validate_color($config['calendar_events']['bgColorEvent']) ? $config['calendar_events']['bgColorEvent'] : '#00AAE4',
+            '#default_value' => ($this->validate_color($config['calendar_events']['bgColorEvent']) == true) ? $config['calendar_events']['bgColorEvent'] : $default['calendar_events']['bgColorEvent'],
             '#weight' => '3',
           ],
           'bgColorSelected' => [
@@ -139,7 +160,7 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 7, 
             '#title' => $this->t('Bg color selected text'),
             '#description' => $this->t('Choose hex background color for selected text'),
-            '#default_value' => $this->validate_color($config['calendar_events']['bgColorSelected']) ? $config['calendar_events']['bgColorSelected'] : '',
+            '#default_value' => $this->validate_color($config['calendar_events']['bgColorSelected']) ? $config['calendar_events']['bgColorSelected'] : $default['calendar_events']['bgColorSelected'],
             '#weight' => '3',
           ],
           'bgColorToday' => [
@@ -147,7 +168,7 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 7, 
             '#title' => $this->t('Bg color today'),
             '#description' => $this->t('Choose hex background color for today'),
-            '#default_value' => $this->validate_color($config['calendar_events']['bgColorToday']) ? $config['calendar_events']['bgColorToday'] : '',
+            '#default_value' => $this->validate_color($config['calendar_events']['bgColorToday']) ? $config['calendar_events']['bgColorToday'] : $default['calendar_events']['bgColorToday'],
             '#weight' => '3',
           ],
           'color' => [
@@ -155,7 +176,7 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 7,
             '#title' => $this->t('Color days'),
             '#description' => $this->t('Choose hex color for all days'),
-            '#default_value' => $this->validate_color($config['calendar_events']['color']) ? $config['calendar_events']['color'] : '#111111',
+            '#default_value' => $this->validate_color($config['calendar_events']['color']) ? $config['calendar_events']['color'] : $default['calendar_events']['color'],
             '#weight' => '3',
           ],
           'colorEvent' => [
@@ -163,7 +184,7 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 7,
             '#title' => $this->t('Color event day'),
             '#description' => $this->t('Choose text color for event day'),
-            '#default_value' => $this->validate_color($config['calendar_events']['colorEvent']) ? $config['calendar_events']['colorEvent'] : '#20603D',
+            '#default_value' => $this->validate_color($config['calendar_events']['colorEvent']) ? $config['calendar_events']['colorEvent'] : $default['calendar_events']['colorEvent'],
             '#weight' => '3',
           ],
           'colorOther' => [
@@ -171,7 +192,7 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 7,
             '#title' => $this->t('Color other text'),
             '#description' => $this->t('Choose text color for other text'),
-            '#default_value' => $this->validate_color($config['calendar_events']['colorOther']) ? $config['calendar_events']['colorOther'] : '#666666',
+            '#default_value' => $this->validate_color($config['calendar_events']['colorOther']) ? $config['calendar_events']['colorOther'] : $default['calendar_events']['colorOther'],
             '#weight' => '3',
           ],
           'colorMonth' => [
@@ -179,7 +200,15 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 7,
             '#title' => $this->t('Color months text'),
             '#description' => $this->t('Choose text color for months text'),
-            '#default_value' => $this->validate_color($config['calendar_events']['colorMonth']) ? $config['calendar_events']['colorMonth'] : '#000000',
+            '#default_value' => $this->validate_color($config['calendar_events']['colorMonth']) ? $config['calendar_events']['colorMonth'] : $default['calendar_events']['colorMonth'],
+            '#weight' => '3',
+          ],
+          'borderRadius' => [
+            '#type' => 'number',
+            '#maxlength' => 3,
+            '#title' => $this->t('Border Radius'),
+            '#description' => $this->t('Type a percent in 0-100 range. Default 70'),
+            '#default_value' => $config['calendar_events']['borderRadius'],
             '#weight' => '3',
           ],
           'textInitialDate' => [ 
@@ -187,7 +216,7 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 50,
             '#title' => $this->t('Initial date text'),
             '#description' => $this->t('Text with initial date'),
-            '#default_value' => (strlen($config['calendar_events']['textInitialDate']) > 3) ? $config['calendar_events']['textInitialDate'] : $this->t('Text with initial date'),
+            '#default_value' => $this->t($config['calendar_events']['textInitialDate']),
             '#weight' => '2',
           ],
           'textEndDate' => [
@@ -195,7 +224,7 @@ class CalendarEventsBlock extends BlockBase{
             '#maxlength' => 50,
             '#title' => $this->t('End date text'),
             '#description' => $this->t('Text with End date'),
-            '#default_value' => (strlen($config['calendar_events']['textEndDate']) > 3) ? $config['calendar_events']['textEndDate'] : $this->t('Text with end date'),
+            '#default_value' => $this->t($config['calendar_events']['textInitialDate']),
             '#weight' => '2',
           ],
           'textInModal' => [
@@ -203,7 +232,7 @@ class CalendarEventsBlock extends BlockBase{
             '#options' => $text_modal,
             '#title' => $this->t('Text in modal'),
             '#description' => $this->t('Choose text in modal or jump to event content'),
-            '#default_value' => (array_key_exists($config['calendar_events']['textInModal'], $text_modal)) ? $config['calendar_events']['textInModal'] : 1,
+            '#default_value' =>  $config['calendar_events']['textInModal'],
             '#weight' => '1',
             ],
         ];
@@ -215,7 +244,7 @@ class CalendarEventsBlock extends BlockBase{
      */
     private function validate_color( $str_color ){
       $str_len = strlen($str_color);
-      $first   = $str_color[0];
+      $first   = $str_len > 3 ? $str_color[0] : false;
       return ($str_len <= 7 && $str_len > 3 && $first == '#') ? true : false;
 
     }
@@ -225,9 +254,9 @@ class CalendarEventsBlock extends BlockBase{
     */
     public function blockSubmit($form, FormStateInterface $form_state) {
         parent::blockSubmit($form, $form_state);
-        $values = $form_state->getValues();
-        $this->configuration['calendar_events'] = $values['calendar_events'];
-    }
+        $config = $this->getConfiguration();   
+        $this->setConfigurationValue('calendar_events', $form_state->getValue('calendar_events'));
+      }
 
 
 }

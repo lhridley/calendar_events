@@ -29,6 +29,7 @@
     var bg_color_selected = DrupalSettings.calendar_events.bg_color_selected;
     var bg_color_today = DrupalSettings.calendar_events.bg_color_today;
     var bg_color_event = DrupalSettings.calendar_events.bg_color_event;
+    var border_radius = DrupalSettings.calendar_events.border_radius;
     var color = DrupalSettings.calendar_events.color;
     var color_event = DrupalSettings.calendar_events.color_event;
     var color_other = DrupalSettings.calendar_events.color_other;
@@ -53,6 +54,9 @@
         }
         if(validateColors(color)){ 
             $(".containerDate .pickmeup .pmu-instance .pmu-button").css("color", color, 'important');
+        }
+        if(validateColors(border_radius)){ 
+            $(".containerDate .pickmeup .pmu-instance .pmu-button").css("border-radius", border_radius, 'important');
         }
         if(validateColors(color_event)){
             $(".containerDate .pickmeup .pmu-instance div[class*='__event_calendar']").css("color", color_event, 'important');

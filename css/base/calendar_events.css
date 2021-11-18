@@ -11,4 +11,8 @@ div[class$=__event_calendar] {
   color: #20603D;
 }
 
+.containerDate .pickmeup .pmu-instance .pmu-day-of-week *, .containerDate .pickmeup .pmu-instance .pmu-days * {
+  width: 1.8em;
+}
+
 /*# sourceMappingURL=calendar_events.css.map */

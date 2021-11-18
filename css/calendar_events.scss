@@ -10,3 +10,7 @@ div[class$="__event_calendar"]{
     background-color: #98FF98;
     color: #20603D;
   }
+
+.containerDate .pickmeup .pmu-instance .pmu-day-of-week *, .containerDate .pickmeup .pmu-instance .pmu-days *{
+    width: 1.8em;
+}

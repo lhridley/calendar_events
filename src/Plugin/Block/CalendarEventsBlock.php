@@ -6,6 +6,7 @@ use Drupal;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Datetime\DrupalDateTime;
 
 
 /**
@@ -23,7 +24,8 @@ class CalendarEventsBlock extends BlockBase{
     /**
     * {@inheritdoc}
     */
-    public function defaultConfiguration() {
+    public function defaultConfiguration() {        
+        \Drupal::logger('calendar_events::blockForm')->debug('<pre><code>' . print_r($message, TRUE) . '</code></pre>');
         return [
           'calendar_events' => [
               'numCal'          => 1,
@@ -48,6 +50,11 @@ class CalendarEventsBlock extends BlockBase{
   /**
    * {@inheritdoc }
    */
+
+  private function getFirstWeekDay(): int{
+    $system_date =  \Drupal::config('system.date');
+    return $message =$system_date->get('first_day');
+  } 
 
   public function build(){
     $language = Drupal::languageManager()->getCurrentLanguage()->getId();
@@ -75,6 +82,7 @@ class CalendarEventsBlock extends BlockBase{
                                         'text_in_modal' => $this->configuration['calendar_events']['textInModal'],
                                         'text_initial_date' => $this->configuration['calendar_events']['textInitialDate'],
                                         'text_end_date' => $this->configuration['calendar_events']['textEndDate'],
+                                        'week_first_day' => $this->getFirstWeekDay(),
                             ]
        ]
       ],
@@ -118,9 +126,9 @@ class CalendarEventsBlock extends BlockBase{
         $form = parent::blockForm($form, $form_state);
         $form['#tree'] = TRUE;
 	      $config = $this->getConfiguration();
-        $message = $config;
+        
         $default = $this->defaultConfiguration();        
-        \Drupal::logger('calendar_events::blockForm')->debug('<pre><code>' . print_r($message, TRUE) . '</code></pre>');
+        
         $theme_options = [
                             1 =>'One Months',
                             2 => 'Two Months',

@@ -7,6 +7,7 @@
     'use strict';
 
     var deb = 1;
+    var opt;
 
     var debug = function(param){
         if (deb==1){
@@ -34,6 +35,7 @@
     var color_event = DrupalSettings.calendar_events.color_event;
     var color_other = DrupalSettings.calendar_events.color_other;
     var color_month = DrupalSettings.calendar_events.color_month;
+    var week_first_day = DrupalSettings.calendar_events.week_first_day;
 
     function validateColors(color){
         if(null == color ){
@@ -140,6 +142,7 @@
                   new Date
               ],
               mode      : 'single',
+              first_day: week_first_day,
               locale: lang,
               calendars: num_cal,
               render: function(date){
@@ -153,43 +156,51 @@
                 return { class_name: 'data_' + date_calendar + dt }
                 },
                before_show: function(){
-                   return setCss()
+                   return setCss();
                },
             }); // close pickmeup call
 
-            $(".pmu-instance > div[class*='__event_calendar']").css("background-color", "red", "important");
-
+            event_click();
             $(".containerDate").on('pickmeup-fill', function (e) {
-                $("div[class*='__event_calendar']").each(function(){
-                    var opt = {
-                        autoOpen: true,
-                        modal: true,
-                        title: 'detail', 
-                        close: function(event, ui){
-                            $('.containerDate').focus();
-                        }
-                    };
-                  $(this).on('click', function(){
-                    var aux_class = $(this).attr("class").split("__event_calendar"); 
-                    var data_day = array_dates_data[aux_class[0].split("data_")[1]];
-                    if(text_in_modal == 0){
-                        return window.location.href=data_day['url'];
-                    }
-                    var dl = $('.dialog').dialog(opt).dialog("open");
-                    dl.html(data_day['body']);
-                    dl.append('<p>' + text_initial_date + ': ' + data_day['start'] + '</p>');
-                    if(data_day['end'] != null)
-                        dl.append('<p>' + text_end_date + ': ' + data_day['end'] + '</p>');
-                    $('.ui-dialog-title').html(data_day['title']);
-                    setCss();
-                  });
-                });    
-                setCss();                      
-              });
+                event_click();
+                setCss();                
+            });
 
+            //$("div[class*='__event_calendar']").unbind("click");
+            
              
               
     } // close init
+
+
+    function event_click(){
+        $("div[class*='__event_calendar']").each(function(){                    
+            opt = {
+                autoOpen: true,
+                modal: true,
+                title: 'detail', 
+                close: function(event, ui){
+                    $('.containerDate').focus();
+                }
+            };
+        });
+        $("div[class*='__event_calendar']").on("click", function(event){
+            event.preventDefault;
+            debug($(this).attr('class'));
+            var aux_class = $(this).attr("class").split("__event_calendar"); 
+            var data_day = array_dates_data[aux_class[0].split("data_")[1]];
+            if(text_in_modal == 0){
+                return window.location.href=data_day['url'];
+            }
+            var dl = $('.dialog').dialog(opt).dialog("open");
+            dl.html(data_day['body']);
+            dl.append('<p>' + text_initial_date + ': ' + data_day['start'] + ' ' + data_day['start_time'] + '</p>');
+            if(data_day['end'] != null)
+                dl.append('<p>' + text_end_date + ': ' + data_day['end'] + ' ' + data_day['end_time'] + '</p>');
+            $('.ui-dialog-title').html(data_day['title']);
+            setCss();
+          });
+    }
 
     
 

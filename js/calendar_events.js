@@ -37,6 +37,8 @@
     var color_month = DrupalSettings.calendar_events.color_month;
     var week_first_day = DrupalSettings.calendar_events.week_first_day;
 
+    
+
     function validateColors(color){
         if(null == color ){
             return false;
@@ -45,6 +47,20 @@
             return true;
         } 
         return false;
+    }
+
+    function validateRadius(radius){
+        var len = radius.length;
+        var res = false;
+        for(var i=0; i < (len - 1); i++){
+            if(typeof parseInt(radius[i]) != 'number'){              
+                return res;
+            }
+        }
+        if(radius[len - 1] != '%'){
+          return res;
+        }
+        return true;
     }
 
     function setCss(){
@@ -57,8 +73,8 @@
         if(validateColors(color)){ 
             $(".containerDate .pickmeup .pmu-instance .pmu-button").css("color", color, 'important');
         }
-        if(validateColors(border_radius)){ 
-            $(".containerDate .pickmeup .pmu-instance .pmu-button").css("border-radius", border_radius, 'important');
+        if(validateRadius(border_radius)){ 
+            $(".containerDate .pickmeup .pmu-instance div[class*='__event_calendar']").css("border-radius", border_radius, 'important');
         }
         if(validateColors(color_event)){
             $(".containerDate .pickmeup .pmu-instance div[class*='__event_calendar']").css("color", color_event, 'important');

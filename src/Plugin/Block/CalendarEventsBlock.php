@@ -40,7 +40,7 @@ class CalendarEventsBlock extends BlockBase{
               'textInitialDate' => 'Text with initial date',
               'textEndDate'     => 'Text with end date',
               'textInModal'     => 1,
-              'borderRadius'    => '70%',
+              'borderRadius'    => '70',
           ]
         ] + parent::defaultConfiguration();
 
@@ -78,7 +78,7 @@ class CalendarEventsBlock extends BlockBase{
                                         'color_event' => $this->configuration['calendar_events']['colorEvent'],
                                         'color_other' => $this->configuration['calendar_events']['colorOther'],
                                         'color_month' => $this->configuration['calendar_events']['colorMonth'],
-                                        'border_radius' => $this->configuration['calendar_events']['borderRadius'],
+                                        'border_radius' => sprintf("%d%s", $this->configuration['calendar_events']['borderRadius'], "%"),
                                         'text_in_modal' => $this->configuration['calendar_events']['textInModal'],
                                         'text_initial_date' => $this->configuration['calendar_events']['textInitialDate'],
                                         'text_end_date' => $this->configuration['calendar_events']['textEndDate'],
@@ -130,9 +130,18 @@ class CalendarEventsBlock extends BlockBase{
         $default = $this->defaultConfiguration();        
         
         $theme_options = [
-                            1 =>'One Months',
-                            2 => 'Two Months',
-                            3 => 'Three Months',
+                            1 =>  $this->t('One Months'),
+                            2 =>  $this->t('Two Months'),
+                            3 =>  $this->t('Three Months'),
+                            4 =>  $this->t('Four Months'),
+                            5 =>  $this->t('Five Months'),
+                            6 =>  $this->t('Six Months'),
+                            7 =>  $this->t('Seven Months'),
+                            8 =>  $this->t('Eight Months'),
+                            9 =>  $this->t('Nine Months'),
+                            10 => $this->t('Ten Months'),
+                            11 => $this->t('Eleven Months'),
+                            12 => $this->t('Twuelve Months'),
         ];
         $text_modal = [
           1 =>'Yes',
@@ -215,7 +224,7 @@ class CalendarEventsBlock extends BlockBase{
             '#type' => 'number',
             '#maxlength' => 3,
             '#title' => $this->t('Border Radius'),
-            '#description' => $this->t('Type a percent in 0-100 range. Default 70'),
+            '#description' => $this->t('Type a percent in 0-100 range. Default 70%'),
             '#default_value' => $config['calendar_events']['borderRadius'],
             '#weight' => '3',
           ],
@@ -254,7 +263,6 @@ class CalendarEventsBlock extends BlockBase{
       $str_len = strlen($str_color);
       $first   = $str_len > 3 ? $str_color[0] : false;
       return ($str_len <= 7 && $str_len > 3 && $first == '#') ? true : false;
-
     }
 
     /**

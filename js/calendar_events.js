@@ -23,6 +23,8 @@
     var text_in_modal = DrupalSettings.calendar_events.text_in_modal;
     var text_end_date = DrupalSettings.calendar_events.text_end_date;
     var text_initial_date = DrupalSettings.calendar_events.text_initial_date;
+    var text_end_time = DrupalSettings.calendar_events.text_end_time;
+    var text_initial_time = DrupalSettings.calendar_events.text_initial_time;    
     var num_cal = DrupalSettings.calendar_events.num_cal;
     var drupal_lang = DrupalSettings.calendar_events.lang.toLowerCase();
     var lang = (DrupalSettings.calendar_events.lang.length > 0 && typeof pickmeup.defaults.locales[drupal_lang] == 'object' ) ? drupal_lang : 'en';
@@ -181,11 +183,6 @@
                 event_click();
                 setCss();                
             });
-
-            //$("div[class*='__event_calendar']").unbind("click");
-            
-             
-              
     } // close init
 
 
@@ -210,9 +207,9 @@
             }
             var dl = $('.dialog').dialog(opt).dialog("open");
             dl.html(data_day['body']);
-            dl.append('<p>' + text_initial_date + ': ' + data_day['start'] + ' ' + data_day['start_time'] + '</p>');
+            dl.append('<p>' + text_initial_date + ': ' + data_day['start'] + ' ' + text_initial_time + ': ' + data_day['start_time'] + '</p>');
             if(data_day['end'] != null)
-                dl.append('<p>' + text_end_date + ': ' + data_day['end'] + ' ' + data_day['end_time'] + '</p>');
+                dl.append('<p>' + text_end_date + ': ' + data_day['end'] + ' ' +  text_end_time + ': ' + data_day['end_time'] + '</p>');
             $('.ui-dialog-title').html(data_day['title']);
             setCss();
           });

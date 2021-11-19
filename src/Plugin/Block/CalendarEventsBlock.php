@@ -39,6 +39,8 @@ class CalendarEventsBlock extends BlockBase{
               'colorMonth'      => '#000000',
               'textInitialDate' => 'Text with initial date',
               'textEndDate'     => 'Text with end date',
+              'textInitialTime' => 'Text with initial time',
+              'textEndTime'     => 'Text with end time',
               'textInModal'     => 1,
               'borderRadius'    => '70',
           ]
@@ -82,6 +84,8 @@ class CalendarEventsBlock extends BlockBase{
                                         'text_in_modal' => $this->configuration['calendar_events']['textInModal'],
                                         'text_initial_date' => $this->configuration['calendar_events']['textInitialDate'],
                                         'text_end_date' => $this->configuration['calendar_events']['textEndDate'],
+                                        'text_initial_time' => $this->configuration['calendar_events']['textInitialTime'],
+                                        'text_end_time' => $this->configuration['calendar_events']['textEndTime'],
                                         'week_first_day' => $this->getFirstWeekDay(),
                             ]
        ]
@@ -112,7 +116,7 @@ class CalendarEventsBlock extends BlockBase{
             'body' => $node->body->value,
             'start' => $node->field_start_date_of_the_event->value,
             'end' => $node->field_end_date_of_the_event->value,
-            'only' => $node->field_only_day->value,
+            //'only' => $node->field_only_day->value,
         ]);
     }
     return json_encode($events);
@@ -242,6 +246,22 @@ class CalendarEventsBlock extends BlockBase{
             '#title' => $this->t('End date text'),
             '#description' => $this->t('Text with End date'),
             '#default_value' => $this->t($config['calendar_events']['textInitialDate']),
+            '#weight' => '2',
+          ],
+          'textInitialTime' => [ 
+            '#type' => 'textfield',
+            '#maxlength' => 50,
+            '#title' => $this->t('Initial time text'),
+            '#description' => $this->t('Text with initial time'),
+            '#default_value' => $this->t($config['calendar_events']['textInitialTime']),
+            '#weight' => '2',
+          ],
+          'textEndTime' => [
+            '#type' => 'textfield',
+            '#maxlength' => 50,
+            '#title' => $this->t('End time text'),
+            '#description' => $this->t('Text with End time'),
+            '#default_value' => $this->t($config['calendar_events']['textInitialTime']),
             '#weight' => '2',
           ],
           'textInModal' => [

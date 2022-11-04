@@ -5,5 +5,9 @@ package: "oscar_drupal"
 type: module
 core_version_requirement: ^8.8.0 || ^9.0
 dependencies:
-  - block
+  - drupal:block
   - drupal:path_alias
+  - drupal:path
+  - drupal:datetime
+  - drupal:language
+  - drupal:menu_ui
